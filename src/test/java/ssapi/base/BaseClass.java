@@ -14,6 +14,8 @@ public class BaseClass
     public static String RESPONSE_STATUS_STRING_SUCCESS = "success";
     public static String RESPONSE_STATUS_MESSAGE_isFirstTimeRegistrationMessage = "Registered Details Successfully";
     public static String RESPONSE_STATUS_MESSAGE_loginMessage = "OTP has been sent to the number";
+    public static String RESPONSE_STATUS_MESSAGE_OTP_SUCCESS = "Otp has been verified Successfully";
+    public static String RESPONSE_STATUS_MESSAGE_OTP_ERROR = "Invalid Otp";
 
 
     public static String loginPostURL = "";

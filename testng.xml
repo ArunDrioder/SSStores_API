@@ -5,33 +5,33 @@
         <listener class-name="ssapi.utils.ExtentReporting"/>
     </listeners>
 
-    <test name="Login Test">
-
-        <packages>
-            <package name="ssapi.tests.POST.Login"/>
-        </packages>
-
-        <classes>
-           <class name="ssapi.tests.POST.Login.LoginTestClass"/>
-
-        </classes>
-
-
-    </test>
-
-<!--    <test name="OTP Verification Test" >-->
+<!--    <test name="Login Test">-->
 
 <!--        <packages>-->
-<!--            <package name="com.ninos.ssapi.tests.POST.VerifyOTP"/>-->
+<!--            <package name="ssapi.tests.POST.Login"/>-->
 <!--        </packages>-->
 
 <!--        <classes>-->
-<!--            <class name="com.ninos.ssapi.tests.POST.VerifyOTP.VerifyOTPTestClass"/>-->
+<!--           <class name="ssapi.tests.POST.Login.LoginTestClass"/>-->
 
 <!--        </classes>-->
 
 
 <!--    </test>-->
+
+    <test name="OTP Verification Test" >
+
+        <packages>
+            <package name="com.ninos.ssapi.tests.POST.VerifyOTP"/>
+        </packages>
+
+        <classes>
+            <class name="ssapi.tests.POST.VerifyOTP.VerifyOTPTestClass"/>
+
+        </classes>
+
+
+    </test>
 
 <!--    <test name="User Registration Test">-->
 <!--        <packages>-->

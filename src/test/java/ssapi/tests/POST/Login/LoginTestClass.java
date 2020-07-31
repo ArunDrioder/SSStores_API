@@ -9,7 +9,7 @@ import org.json.JSONObject;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
+import ssapi.data.Xls_Reader;
 
 
 public class LoginTestClass extends BaseClass
@@ -17,49 +17,62 @@ public class LoginTestClass extends BaseClass
     public static Response response;
     public static RequestSpecification httpPostRequest;
     public static JSONObject requestParam;
+    public static Xls_Reader reader;
 
-    @Test(dataProvider = "userLoginData")
-    public void loginTest(String mobile)
+    @Test()
+    public void loginTest()
     {
         RestAssured.baseURI = loginPostURL;
         httpPostRequest = RestAssured.given();
+        reader = new Xls_Reader("C:\\Backup\\RestAPI Automation - Workspace\\SSStores_API\\src\\test\\java\\ssapi\\data\\SSAPI_data.xlsx");
+        String sheetName = "Login";
 
-         requestParam = new JSONObject();
-        requestParam.put("mobile",mobile);
-        httpPostRequest.header("Content-Type","application/json");
-        httpPostRequest.body(requestParam.toString());
+        int rowCount = reader.getRowCount(sheetName);
+        for (int rowNum = 2; rowNum<=rowCount; rowNum++)
+        {
+            String mobile = reader.getCellData(sheetName,"mobile",rowNum);
 
-         response = httpPostRequest.request(Method.POST,"/login");
+            requestParam = new JSONObject();
+            requestParam.put("mobile",mobile);
+            httpPostRequest.header("Content-Type","application/json");
+            httpPostRequest.body(requestParam.toString());
 
-        String getResponseBody = response.getBody().asString();
-        System.out.println("Response Body is :"+""+"\n" +getResponseBody);
+            response = httpPostRequest.request(Method.POST,"/login");
 
-        int statusCode = response.getStatusCode();
-        System.out.println("The status code is :" +statusCode);
-        Assert.assertEquals(statusCode,RESPONSE_STATUS_CODE_SUCCESS);
+            String getResponseBody = response.getBody().asString();
+            System.out.println("Response Body is :"+""+"\n" +getResponseBody);
 
-        String statusLine = response.getStatusLine();
-        System.out.println(statusLine);
-        Assert.assertEquals(statusLine,"HTTP/1.1 200 OK");
+            int statusCode = response.getStatusCode();
+            System.out.println("The status code is :" +statusCode);
+            Assert.assertEquals(statusCode,RESPONSE_STATUS_CODE_SUCCESS);
 
-        String statusMessage = response.jsonPath().get("status");
-        System.out.println("The status message is:" +statusMessage);
-        Assert.assertEquals(statusMessage,RESPONSE_STATUS_STRING_SUCCESS,"Sorry,the test failed");
+            String statusLine = response.getStatusLine();
+            System.out.println(statusLine);
+            Assert.assertEquals(statusLine,"HTTP/1.1 200 OK");
 
-        String responseMessage = response.jsonPath().get("message");
-        System.out.println("The response message is :" +responseMessage);
-        Assert.assertEquals(responseMessage,RESPONSE_STATUS_MESSAGE_isFirstTimeRegistrationMessage);
+            String statusMessage = response.jsonPath().get("status");
+            System.out.println("The status message is:" +statusMessage);
+            Assert.assertEquals(statusMessage,RESPONSE_STATUS_STRING_SUCCESS,"Sorry,the test failed");
 
-        int responseUserId = response.jsonPath().get("user.id");
-        System.out.println("The newly registered user's ID is :" +responseUserId);
+            String responseMessage = response.jsonPath().get("message");
+            System.out.println("The response message is :" +responseMessage);
+            Assert.assertEquals(responseMessage,RESPONSE_STATUS_MESSAGE_loginMessage);
+
+            int responseUserId = response.jsonPath().get("user.id");
+            System.out.println("The newly registered user's ID is :" +responseUserId);
+
+            //reader.setCellData(sheetName,"id",rowNum,responseUserId);
+
+
+
+        }
+
+
     }
 
-    @DataProvider(name = "userLoginData")
-    Object[][] getUserCredentials()
-    {
-        String userData[][] = {{"9443337463"},{"9790191817"},{"9486157661"},{"9940855238"},{"7639915844"}};
-        return(userData);
-    }
+
+
+
 
 
 
